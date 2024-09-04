@@ -13,13 +13,13 @@
 <body>
   <canvas id="pdf-viewer"></canvas>
   <script>
-    const url = 'https://github.com/ASG-Plettenberg/pdf-viewer/raw/cc08d4d969abf2cbb5eecad126a28169166a7467/Elternplan_2024-25.pdf'; // Link zur PDF-Datei
+    const url = 'https://github.com/ASG-Plettenberg/pdf-viewer/raw/cc08d4d969abf2cbb5eecad126a28169166a7467/Elternplan_2024-25.pdf'; // Direktlink zur PDF-Datei
 
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
 
-    // Asynchronous download of PDF
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
     pdfjsLib.getDocument(url).promise.then(pdf => {
-      // Fetch the first page
       pdf.getPage(1).then(page => {
         const scale = 1.5;
         const viewport = page.getViewport({ scale });
@@ -28,7 +28,6 @@
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
-        // Render PDF page into canvas context
         const renderContext = {
           canvasContext: context,
           viewport: viewport
